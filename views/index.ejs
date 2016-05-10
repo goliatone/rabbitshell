@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Webshell - The WebTTY Terminal Emulator</title>
+    <script>
+      var webshellConfig = {};
+      webshellConfig.proxy_pass_prefix = '<%= proxy_pass_prefix %>';
+    </script>
+    <script src="<%= proxy_pass_prefix %>/webshell/hterm_all.js"></script>
+    <script src="<%= proxy_pass_prefix %>/webshell/socket.io/socket.io.js"></script>
+    <script src="<%= proxy_pass_prefix %>/webshell/webshell.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0px;
+        }
+        #terminal {
+            display: block;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="terminal"></div>
+</body>
+
+</html>
