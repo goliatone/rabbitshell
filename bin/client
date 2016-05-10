@@ -1,5 +1,38 @@
 #!/usr/bin/env node
+var program = require('commander');
+
+program
+  .version('0.0.1')
+  .option('-i, --client-id [client-id]', 'Client ID that will be used to connect remotely to this client.', process.env.NODE_AMQP_CLIENT_ID)
+  .option('-s, --service-id [service-id]', 'Service ID that will be used to connect to.', process.env.NODE_AMQP_SERVICE_ID)
+  .option('-u, --url [client-url]', 'AMQP endpoint', process.env.NODE_AMQP_ENDPOINT)
+  .option('-e, --exchange [exchange]', 'Exchange name used in AMQP communication', process.env.NODE_AMQP_EXCHANGE)
+  .parse(process.argv);
+
+program.on('--help', function(){
+    console.log('  RabbitShell client application.');
+    console.log('  Requires a valid AMQP endpoint and a client ID.');
+    console.log('  Examples:');
+    console.log('');
+    console.log('    $ rabbitshell-client -i wee-1 -e rtty.dev -h amqp://localhost:1337');
+    console.log('');
+});
+
+if (!program.clientId || !program.url) {
+    return program.outputHelp();
+}
+
+var config = {
+    instanceId: program.clientId,
+    serviceId: program.serviceId,
+    amqp: {
+        exchange: program.exchange,
+        client: {
+            url: program.url
+        }
+    }
+};
 
 var Client = require('../lib/client');
 
-Client.init();
+Client.init(config);
