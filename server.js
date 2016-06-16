@@ -131,19 +131,21 @@ io.use(passportSocketIo.authorize({
     }
 }));
 
+var Rpty = require('./lib/rpty');
+
 io.on('connection', function(socket){
     var request = socket.request;
     console.log((new Date()) + ' Conneciton accepted.');
 
     var term;
-    var entrypoint = config.shellEntrypoint(request);
-    //This should be a remote pty: we need an pty machine id
-    // term = pty.spawn(entrypoint.script, entrypoint.args, {
-    //     name: 'xterm-256color',
-    //     cols: 80,
-    //     rows: 30
-    // });
-    term = require('./lib/rpty').spawn('local', entrypoint.script, entrypoint.args, {
+    var opts = config.shellEntrypoint(request);
+
+    /*
+     * clientId: identifier for client topics. This is
+     * the same parameter we used when we started a client
+     * instance.
+     */
+    term = Rpty.spawn(opts.clientId, opts.script, opts.args, {
         name: 'xterm-256color',
         cols: 80,
         rows: 30
