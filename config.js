@@ -17,7 +17,8 @@ config.authFn = function(req, username, password, cb){
 config.shellEntrypoint = function(req){
     return {
         script: __dirname + '/bin/entrypoint',
-        args: [req.user.resource_id]
+        args: [req.user.resource_id],
+        clientId: req.user.resource_id
     };
 };
 
